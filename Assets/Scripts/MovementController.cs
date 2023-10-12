@@ -15,7 +15,7 @@ public class MovementController : MonoBehaviour
     public float groundDist = 0.4f;
     public LayerMask groundLayer;
 
-    bool isGrounded;
+    public bool isGrounded;
     private void Update()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDist, groundLayer);
@@ -32,7 +32,7 @@ public class MovementController : MonoBehaviour
 
         controller.Move(move * speed * Time.deltaTime);
 
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpForce * -2f * gravity);
         }
