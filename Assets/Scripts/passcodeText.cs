@@ -8,12 +8,26 @@ public class passcodeText : MonoBehaviour
     private static string passcode = "________";
     private TMP_Text codeText;
 
-    private int[] numbers;
+    private int logsRemaining = 8;
+    public bool doorUnlocked;
+
+    private bool hintsVisable = false;
+
+
+    public GameObject[] hintObjects;
 
     private void Start()
     {
         codeText = GetComponent<TMP_Text>();
-        UpdateText(); 
+        UpdateText();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.H) && !hintsVisable)
+        {
+            StartCoroutine(ShowHints());
+        }
     }
 
     private void UpdateText()
@@ -27,6 +41,29 @@ public class passcodeText : MonoBehaviour
         passcodeArray[logOrder - 1] = (char)(logNumber + '0');
         passcode = new string(passcodeArray);
         UpdateText();
+        logsRemaining--;
+        if (logsRemaining == 0)
+        {
+            doorUnlocked = true;
+        }
+    }
+    private IEnumerator ShowHints()
+    {
+        hintsVisable = true;
+
+        for (int i = 0; i < hintObjects.Length; i++)
+        {
+            hintObjects[i].SetActive(true);
+        }
+
+        yield return new WaitForSeconds(3);
+
+        for (int i = 0; i < hintObjects.Length; i++)
+        {
+            hintObjects[i].SetActive(false);
+        }
+
+        hintsVisable = false;
     }
 
 }

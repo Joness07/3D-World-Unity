@@ -65,11 +65,17 @@ public class MovementController : MonoBehaviour
             anim.SetBool("isJump", true);
         }
 
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+
+        }
+
         velocity.y += gravity * Time.deltaTime;
 
         controller.Move(velocity * Time.deltaTime);
 
     }
+
 
 
 }

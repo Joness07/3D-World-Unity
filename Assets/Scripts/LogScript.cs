@@ -13,6 +13,8 @@ public class LogScript : MonoBehaviour
 
     public InteractPrompt prompt;
 
+    public AudioSource pickupNoise;
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
@@ -38,6 +40,8 @@ public class LogScript : MonoBehaviour
     }
     private void collectLog()
     {
+        pickupNoise.Play();
+
         prompt.gameObject.SetActive(false);
         passcodeScript.logFound(orderNumber, logNumber);
         gameObject.SetActive(false);

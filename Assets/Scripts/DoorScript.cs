@@ -1,19 +1,24 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DoorScript : MonoBehaviour
 {
-    public float rotationAngle = 90.0f;
+    public float rotationAngle = 135;
+    public float rotationSpeed = 90.0f; 
     public GameObject interactPrompt;
 
-    public bool playerInRange = false;
+    private bool playerInRange = false;
+    private bool isRotating = false;
+
+    public Transform doorModel;
+
+    public passcodeText passcode;
 
     private void Update()
     {
-        if (playerInRange && Input.GetKeyDown(KeyCode.E))
+        if (playerInRange && Input.GetKeyDown(KeyCode.E) && !isRotating && passcode.doorUnlocked)
         {
-            RotateDoor();
+            StartCoroutine(RotateDoor());
         }
     }
 
@@ -35,10 +40,21 @@ public class DoorScript : MonoBehaviour
         }
     }
 
-    private void RotateDoor()
+    private IEnumerator RotateDoor()
     {
-        transform.Rotate(0, rotationAngle, 0);
         interactPrompt.SetActive(false);
+        isRotating = true;
+        float currentRotation = doorModel.rotation.eulerAngles.y;
+        float targetRotation = currentRotation + rotationAngle;
+
+        while (doorModel.rotation.eulerAngles.y < targetRotation)
+        {
+            float step = rotationSpeed * Time.deltaTime;
+            doorModel.Rotate(Vector3.up, step);
+            yield return null;
+        }
+
+        isRotating = false;
         Destroy(this);
     }
 }
