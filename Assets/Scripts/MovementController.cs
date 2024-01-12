@@ -16,6 +16,7 @@ public class MovementController : MonoBehaviour
     public LayerMask groundLayer;
 
     private Animator anim;
+    public Animator armsAnim;
 
     public float x, z, y;
 
@@ -40,20 +41,30 @@ public class MovementController : MonoBehaviour
         y = velocity.y;
 
         anim.SetFloat("yVel", y);
+        armsAnim.SetFloat("yVel", y);
 
-        if(x == 0 && z == 0)
+        if (x == 0 && z == 0)
         {
             anim.SetBool("isIdle", true);
             anim.SetBool("isRunning", false);
+
+            armsAnim.SetBool("isIdle", true);
+            armsAnim.SetBool("isRunning", false);
         }
         else
         {
             anim.SetBool("isIdle", false);
             anim.SetBool("isRunning", true );
+
+            armsAnim.SetBool("isIdle", false);
+            armsAnim.SetBool("isRunning", true);
         }
 
         anim.SetFloat("Horizontal", x);
         anim.SetFloat("Vertical", z);
+
+        armsAnim.SetFloat("Horizontal", x);
+        armsAnim.SetFloat("Vertical", z);
 
         Vector3 move = transform.right * x + transform.forward * z;
 
@@ -63,12 +74,10 @@ public class MovementController : MonoBehaviour
         {
             velocity.y = Mathf.Sqrt(jumpForce * -2f * gravity);
             anim.SetBool("isJump", true);
+
+            armsAnim.SetBool("isJump", true);
         }
 
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-
-        }
 
         velocity.y += gravity * Time.deltaTime;
 

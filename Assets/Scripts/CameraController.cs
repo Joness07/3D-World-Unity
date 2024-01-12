@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     public Transform playerBody;
-    public float mouseSen = 100f;
+    public float mouseSen = 200f;
 
     float xRot;
     // Start is called before the first frame update
